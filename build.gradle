@@ -11,16 +11,25 @@ ext {
     targetSdkVerson = 31
     compileSdkVersion = 31
 
-    hiltDepVersion = '2.38.1'
-    hiltKaptDepVersion = '2.38.1'
+    hiltVersion = '2.38.1'
+    hiltKaptVersion = '2.38.1'
 
-    roomDepVersion = '2.4.2'
+    roomVersion = '2.4.2'
 
-    hiltDependency = "com.google.dagger:hilt-android:$hiltDepVersion"
-    hiltKaptDependency = "com.google.dagger:hilt-android-compiler:$hiltKaptDepVersion"
+    retrofitVersion = '2.9.0'
 
-    roomDep = "androidx.room:room-runtime:$roomDepVersion"
-    roomCompilerKapt = "androidx.room:room-compiler:$roomDepVersion"
+    gsonVersion = '2.8.7'
+
+    hiltDependency = "com.google.dagger:hilt-android:$hiltVersion"
+    hiltKaptDependency = "com.google.dagger:hilt-android-compiler:$hiltKaptVersion"
+
+    roomDep = "androidx.room:room-runtime:$roomVersion"
+    roomCompilerKapt = "androidx.room:room-compiler:$roomVersion"
+
+    retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    gsonConverterDep = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    gsonDep = "com.google.code.gson:gson:$gsonVersion"
 }
 
 task clean(type: Delete) {

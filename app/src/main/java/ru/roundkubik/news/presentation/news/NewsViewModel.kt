@@ -1,4 +1,7 @@
 package ru.roundkubik.news.presentation.news
 
-class NewsViewModel {
+import androidx.lifecycle.ViewModel
+import ru.roundkubik.news.domain.usecase.GetHeadlinesUseCase
+
+class NewsViewModel constructor(getHeadlinesUseCase: GetHeadlinesUseCase): ViewModel() {
 }

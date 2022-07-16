@@ -45,4 +45,9 @@ dependencies {
 
     implementation hiltDependency
     kapt hiltKaptDependency
+
+    implementation retrofitDep
+    implementation gsonConverterDep
+
+    implementation gsonDep
 }
