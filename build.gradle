@@ -20,6 +20,14 @@ ext {
 
     gsonVersion = '2.8.7'
 
+    coroutinesVersion = '1.5.1'
+
+    rxjavaVersion = '2.2.21'
+    rxandroidVersion = '2.1.1'
+    rxkotlinVersion = '2.3.0'
+
+    architectureComponentVersion = '2.3.1'
+
     hiltDependency = "com.google.dagger:hilt-android:$hiltVersion"
     hiltKaptDependency = "com.google.dagger:hilt-android-compiler:$hiltKaptVersion"
 
@@ -30,6 +38,19 @@ ext {
     gsonConverterDep = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     gsonDep = "com.google.code.gson:gson:$gsonVersion"
+
+    coroutinesDep = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    coroutinesAndroidDep = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+    rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    rxAndroidDep = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+    rxKotlinDep = "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
+
+    lifecycleVmDep = "androidx.lifecycle:lifecycle-viewmodel-ktx:$architectureComponentVersion"
+    lifecycleLiveDataDep = "androidx.lifecycle:lifecycle-livedata-ktx:$architectureComponentVersion"
+    lifecycleRuntimeDep = "androidx.lifecycle:lifecycle-runtime-ktx:$architectureComponentVersion"
+    lifecycleKapt = "androidx.lifecycle:lifecycle-compiler:$architectureComponentVersion"
+
 }
 
 task clean(type: Delete) {

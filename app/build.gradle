@@ -24,6 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -50,4 +53,18 @@ dependencies {
     implementation gsonConverterDep
 
     implementation gsonDep
+
+    implementation coroutinesDep
+    implementation coroutinesAndroidDep
+
+    implementation rxJavaDep
+    implementation rxAndroidDep
+    implementation rxKotlinDep
+
+    implementation lifecycleVmDep
+    implementation lifecycleLiveDataDep
+    implementation lifecycleRuntimeDep
+    kapt lifecycleKapt
+
+    implementation "io.coil-kt:coil:2.1.0"
 }

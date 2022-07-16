@@ -4,6 +4,6 @@ import java.util.*
 
 data class Headlines(
     val id: UUID,
-    val category: String,
+    val category: Category,
     val articles: List<Article>
 )
