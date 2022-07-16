@@ -1,6 +1,8 @@
 package ru.roundkubik.news.data.remote.model
 
 import com.google.gson.annotations.SerializedName
+import ru.roundkubik.news.domain.model.Article
+import java.util.*
 
 data class ArticleResponse(
     @SerializedName("source")
@@ -16,7 +18,17 @@ data class ArticleResponse(
     @SerializedName("urlToImage")
     val urlToImage: String,
     @SerializedName("publishedAt")
-    val publishedAt: String,
+    val publishedAt: Date,
     @SerializedName("content")
     val content: String
 )
+
+fun ArticleResponse.toArticle() : Article {
+    return Article(
+        id = UUID.randomUUID(),
+        title = title,
+        url = url,
+        urlToImage = urlToImage,
+        publishedAt = publishedAt
+    )
+}
