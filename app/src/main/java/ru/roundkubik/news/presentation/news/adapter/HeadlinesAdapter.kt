@@ -2,54 +2,81 @@ package ru.roundkubik.news.presentation.news.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import ru.roundkubik.news.core.root.adapter.BaseAdapter
+import ru.roundkubik.news.core.root.adapter.BaseViewHolder
+import ru.roundkubik.news.databinding.ItemArticleErrorBinding
+import ru.roundkubik.news.databinding.ItemArticleProgressBinding
 import ru.roundkubik.news.databinding.ItemNewsCategoryBinding
 import ru.roundkubik.news.presentation.model.ArticleUi
+import ru.roundkubik.news.presentation.model.ArticleUiMapper
 import ru.roundkubik.news.presentation.model.HeadlineUi
+import ru.roundkubik.news.presentation.model.HeadlineUiMapper
 
 class HeadlinesAdapter(
     private val onArticleClick: (urlToArticle: String) -> Unit
-) : RecyclerView.Adapter<HeadlinesAdapter.HeadLinesViewHolder>() {
+) : BaseAdapter<HeadlineUi, BaseViewHolder<HeadlineUi>>() {
 
-    private var headlines: List<HeadlineUi> = emptyList()
+    private val viewPool = RecyclerView.RecycledViewPool()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeadLinesViewHolder {
-        val binding =
-            ItemNewsCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HeadLinesViewHolder(onArticleClick, binding)
+    override fun getItemViewType(position: Int) = when (list[position]) {
+        is HeadlineUi.BaseHeadlineUi -> 0
+        is HeadlineUi.Progress -> 1
+        is HeadlineUi.Fail -> 2
+        else -> -1
     }
 
-    override fun onBindViewHolder(holder: HeadLinesViewHolder, position: Int) {
-        val item = headlines[position]
-        when(item) {
-            is HeadlineUi.BaseHeadlineUi -> holder.bind(item.articles)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<HeadlineUi> {
+        when (viewType) {
+            0 -> {
+                val binding =
+                    ItemNewsCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return BaseHeadLinesViewHolder.HeadLinesViewHolder(binding, onArticleClick, viewPool)
+            }
+            1 -> {
+                val binding =
+                    ItemArticleProgressBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return BaseHeadLinesViewHolder.ProgressHeadlinesViewHolder(binding)
+            }
+            2 -> {
+                val binding =
+                    ItemArticleErrorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return BaseHeadLinesViewHolder.ErrorHeadlinesViewHolder(binding)
+            }
+            else -> throw IllegalStateException("unknown viewType $viewType")
         }
+
     }
 
-    override fun getItemCount(): Int = headlines.size
-
-    fun submitData(data: List<HeadlineUi>) {
-        headlines = data
+    override fun onBindViewHolder(holder: BaseViewHolder<HeadlineUi>, position: Int) {
+        holder.bind(list[position])
     }
 
-    class HeadLinesViewHolder(
-        onArticleClick: (urlToArticle: String) -> Unit,
-        binding: ItemNewsCategoryBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val articleAdapter: ArticleAdapter = ArticleAdapter(onArticleClick)
+    override fun diffUtilCallback(
+        list: ArrayList<HeadlineUi>,
+        data: List<HeadlineUi>
+    ): DiffUtil.Callback = HeadlineUiDiffUtilCallback(list, data, HeadlineUiMapper())
 
-        init {
-            binding.itemNewsCategoryRvNews.layoutManager =
-                LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-            binding.itemNewsCategoryRvNews.adapter = articleAdapter
 
+    inner class HeadlineUiDiffUtilCallback(
+        private val old: List<HeadlineUi>,
+        private val new: List<HeadlineUi>,
+        private val same: HeadlineUiMapper<HeadlineUi>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = old.size
+
+        override fun getNewListSize(): Int = new.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return same.isItemsSame(old[oldItemPosition], new[newItemPosition])
         }
 
-        fun bind(data: List<ArticleUi>) {
-            articleAdapter.submitData(data)
-        }
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            old[oldItemPosition] == new[newItemPosition]
+
 
     }
 

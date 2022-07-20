@@ -1,6 +1,7 @@
 package ru.roundkubik.news.data.remote.model
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.model.Headlines
 import java.util.*

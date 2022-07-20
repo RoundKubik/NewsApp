@@ -9,13 +9,14 @@ import ru.roundkubik.news.data.source.NewsDataSource
 import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.model.Headlines
 import java.net.HttpURLConnection
+import javax.inject.Inject
 
-class NewsDataSourceImpl(
+class NewsDataSourceImpl @Inject constructor(
     private val api: NewsApiService
 ) : NewsDataSource {
 
     override fun getHeadlines(category: Category): Single<NewsResult<Headlines>> {
-        return api.getTopHeadlines(category.category).map { response ->
+        return api.getTopHeadlines("us", category.category, "88ecaeed8499427db378de30423546c3").map { response ->
             when {
                 response.isSuccessful -> {
                     val res = response.body()

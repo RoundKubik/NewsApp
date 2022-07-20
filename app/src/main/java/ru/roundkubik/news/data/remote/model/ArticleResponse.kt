@@ -16,7 +16,7 @@ data class ArticleResponse(
     @SerializedName("url")
     val url: String,
     @SerializedName("urlToImage")
-    val urlToImage: String,
+    val urlToImage: String?,
     @SerializedName("publishedAt")
     val publishedAt: Date,
     @SerializedName("content")

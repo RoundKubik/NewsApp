@@ -17,6 +17,9 @@ ext {
     roomVersion = '2.4.2'
 
     retrofitVersion = '2.9.0'
+    okHttpVersion = '4.9.3'
+    okHttpInterceptorVersion = '4.9.1'
+    retrofitSerializationVersion = '0.8.0'
 
     gsonVersion = '2.8.7'
 
@@ -28,6 +31,8 @@ ext {
 
     architectureComponentVersion = '2.3.1'
 
+    navControllerVersion = '2.3.5'
+
     hiltDependency = "com.google.dagger:hilt-android:$hiltVersion"
     hiltKaptDependency = "com.google.dagger:hilt-android-compiler:$hiltKaptVersion"
 
@@ -36,6 +41,10 @@ ext {
 
     retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     gsonConverterDep = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    okHttpDep = "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    okHttpInterceptor = "com.squareup.okhttp3:logging-interceptor:$okHttpInterceptorVersion"
+    retrofitSerializationVersion = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$retrofitSerializationVersion"
+    retrofitAdapterDep = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     gsonDep = "com.google.code.gson:gson:$gsonVersion"
 
@@ -51,6 +60,8 @@ ext {
     lifecycleRuntimeDep = "androidx.lifecycle:lifecycle-runtime-ktx:$architectureComponentVersion"
     lifecycleKapt = "androidx.lifecycle:lifecycle-compiler:$architectureComponentVersion"
 
+    navigationFragmentDep = "androidx.navigation:navigation-fragment-ktx:$navControllerVersion"
+    navigationUiDep = "androidx.navigation:navigation-ui-ktx:$navControllerVersion"
 }
 
 task clean(type: Delete) {

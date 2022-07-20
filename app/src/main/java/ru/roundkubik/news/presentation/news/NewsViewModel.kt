@@ -1,6 +1,8 @@
 package ru.roundkubik.news.presentation.news
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -12,17 +14,17 @@ import ru.roundkubik.news.core.entity.HeadlinesError
 import ru.roundkubik.news.core.entity.NewsResult
 import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.usecase.GetHeadlinesUseCase
-import ru.roundkubik.news.domain.usecase.GetSortedCategories
 import ru.roundkubik.news.presentation.model.HeadlineUi
 import ru.roundkubik.news.presentation.model.toHeadlineUi
+import javax.inject.Inject
 
-class NewsViewModel constructor(
+@HiltViewModel
+class NewsViewModel @Inject constructor(
     private val getHeadlinesUseCase: GetHeadlinesUseCase,
-    private val getSortedCategories: GetSortedCategories
+    // private val getSortedCategories: GetSortedCategories
 ) : ViewModel() {
 
-    private val _headlines: MutableStateFlow<MutableMap<Category, HeadlineUi>> =
-        MutableStateFlow(mutableMapOf())
+    private val _headlines: MutableStateFlow<Map<Category, HeadlineUi>> = MutableStateFlow(mapOf())
     val headlines: StateFlow<Map<Category, HeadlineUi>> get() = _headlines
 
     private val _categories: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
@@ -34,33 +36,45 @@ class NewsViewModel constructor(
     private val disposable = CompositeDisposable()
 
     init {
-        _categories.value = getSortedCategories.invoke()
-        _headlines.value = categories.value.associateWith { HeadlineUi.Progress(it) }.toMutableMap()
+        _categories.value =
+            listOf(Category.Business, Category.Science, Category.Health, Category.General)
+        _headlines.value =
+            categories.value.associateWith { category -> HeadlineUi.Progress(category) }
     }
 
     fun getHeadlines() {
         categories.value.map { category ->
+            Log.d(TAG, "getHeadlines: catgegory: $category")
             getHeadlinesUseCase.invoke(category)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    when (it) {
-                        is NewsResult.Success -> {
-                            _headlines.value[category] = it.data.toHeadlineUi()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        when (it) {
+                            is NewsResult.Success -> {
+                                val mutableData = _headlines.value.toMutableMap()
+                                mutableData[it.data.category] = it.data.toHeadlineUi()
+                                _headlines.value = mutableData
+                                Log.d(TAG, "getHeadlines: ${it.data.toHeadlineUi()}")
+                            }
+                            is NewsResult.Error -> {
+                                Log.d(TAG, "getHeadlines: error ${it.error.toString()}")
+                                HeadlineUi.Fail(it.error.toString(), category)
+                            }
                         }
-                        is NewsResult.Error -> {
-                            HeadlineUi.Fail(it.error.toString(), category)
-                        }
-                    }
-                }, {
-                    _newsState.value = NewsState.Failure(HeadlinesError.Unknown)
-                })
-                .addTo(disposable)
+                    }, {
+                        Log.d(TAG, "getHeadlines: throwable $it")
+                        _newsState.value = NewsState.Failure(HeadlinesError.Unknown)
+                    })
+                    .addTo(disposable)
         }
     }
 
     sealed class NewsState {
         object Initial : NewsState()
         data class Failure(val newError: ErrorEntity) : NewsState()
+    }
+
+    companion object {
+        private val TAG = NewsViewModel::class.simpleName
     }
 }

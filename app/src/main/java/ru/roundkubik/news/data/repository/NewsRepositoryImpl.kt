@@ -6,8 +6,9 @@ import ru.roundkubik.news.data.source.NewsDataSource
 import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.model.Headlines
 import ru.roundkubik.news.domain.repository.NewsRepository
+import javax.inject.Inject
 
-class NewsRepositoryImpl(private val dataSource: NewsDataSource) : NewsRepository {
+class NewsRepositoryImpl @Inject constructor(private val dataSource: NewsDataSource) : NewsRepository {
     override fun getHeadlines(category: Category): Single<NewsResult<Headlines>> {
         return dataSource.getHeadlines(category)
     }

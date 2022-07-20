@@ -9,5 +9,9 @@ import ru.roundkubik.news.data.remote.model.HeadlinesResponse
 interface NewsApiService {
 
     @GET("/v2/top-headlines")
-    fun getTopHeadlines(@Query("category") category: String) : Single<Response<HeadlinesResponse>>
+    fun getTopHeadlines(
+        @Query("country") country: String,
+        @Query("category") category: String,
+        @Query("apiKey") apiKey: String
+    ) : Single<Response<HeadlinesResponse>>
 }

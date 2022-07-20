@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="nes_api_key">88ecaeed8499427db378de30423546c3</string>
     <string name="news">News</string>
 </resources>
