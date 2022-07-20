@@ -30,7 +30,7 @@ abstract class BaseHeadLinesViewHolder(
         }
 
         override fun bind(elem: HeadlineUi) {
-            binding.itemNewsCategoryTvCategory.text = elem.category.category.uppercase()
+            binding.itemNewsCategoryTvCategory.text = elem.category.name.uppercase()
             if (elem is HeadlineUi.BaseHeadlineUi) {
                 articleAdapter.submitData(elem.articles)
             }
@@ -42,7 +42,7 @@ abstract class BaseHeadLinesViewHolder(
     ) : BaseViewHolder.Fail<HeadlineUi>(binding.root) {
 
         override fun bind(elem: HeadlineUi) {
-            binding.itemArticleErrorTvErrorMessage.text = elem.category.category.uppercase()
+            binding.itemArticleErrorTvErrorMessage.text = elem.category.name.uppercase()
         }
     }
 
@@ -50,7 +50,7 @@ abstract class BaseHeadLinesViewHolder(
         BaseViewHolder.Progress<HeadlineUi>(binding.root) {
 
         override fun bind(elem: HeadlineUi) {
-            binding.itemArticleProgressTvCategory.text = elem.category.category.uppercase()
+            binding.itemArticleProgressTvCategory.text = elem.category.name.uppercase()
         }
 
     }

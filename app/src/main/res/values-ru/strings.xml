@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="news_api_key">88ecaeed8499427db378de30423546c3</string>
+    <string name="news">Новости</string>
+
+    <string name="category_business">бизнес</string>
+    <string name="category_entertainment">развлечения</string>
+    <string name="category_general">все</string>
+    <string name="category_health">здоровье</string>
+    <string name="category_science">наука</string>
+    <string name="category_technology">тезнологии</string>
+</resources>

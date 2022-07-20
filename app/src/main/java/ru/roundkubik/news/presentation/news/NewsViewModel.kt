@@ -3,17 +3,17 @@ package ru.roundkubik.news.presentation.news
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.roundkubik.news.core.entity.ErrorEntity
 import ru.roundkubik.news.core.entity.HeadlinesError
 import ru.roundkubik.news.core.entity.NewsResult
+import ru.roundkubik.news.core.schedulers.SchedulerProvider
 import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.usecase.GetHeadlinesUseCase
+import ru.roundkubik.news.domain.usecase.GetSortedCategoriesUseCase
 import ru.roundkubik.news.presentation.model.HeadlineUi
 import ru.roundkubik.news.presentation.model.toHeadlineUi
 import javax.inject.Inject
@@ -21,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val getHeadlinesUseCase: GetHeadlinesUseCase,
-    // private val getSortedCategories: GetSortedCategories
+    private val getSortedCategoriesUseCase: GetSortedCategoriesUseCase,
+    private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     private val _headlines: MutableStateFlow<Map<Category, HeadlineUi>> = MutableStateFlow(mapOf())
@@ -36,8 +37,7 @@ class NewsViewModel @Inject constructor(
     private val disposable = CompositeDisposable()
 
     init {
-        _categories.value =
-            listOf(Category.Business, Category.Science, Category.Health, Category.General)
+        _categories.value = getSortedCategoriesUseCase.invoke()
         _headlines.value =
             categories.value.associateWith { category -> HeadlineUi.Progress(category) }
     }
@@ -46,8 +46,8 @@ class NewsViewModel @Inject constructor(
         categories.value.map { category ->
             Log.d(TAG, "getHeadlines: catgegory: $category")
             getHeadlinesUseCase.invoke(category)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
                     .subscribe({
                         when (it) {
                             is NewsResult.Success -> {

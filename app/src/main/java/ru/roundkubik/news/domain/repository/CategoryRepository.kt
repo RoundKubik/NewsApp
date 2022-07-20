@@ -4,5 +4,5 @@ import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.model.Country
 
 interface CategoryRepository {
-    fun getSortedCategories(lan: Country) : List<Category>
+    fun getSortedCategories() : List<Category>
 }
