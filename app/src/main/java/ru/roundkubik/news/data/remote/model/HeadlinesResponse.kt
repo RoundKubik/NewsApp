@@ -13,7 +13,7 @@ data class HeadlinesResponse(
     val articles: List<ArticleResponse>
 )
 
-fun HeadlinesResponse.toHeadlines(category: Category): Headlines {
+fun HeadlinesResponse.toHeadlinesArticlesSortedByDescending(category: Category): Headlines {
     return Headlines(
         category,
         articles.map { it.toArticle() }.sortedByDescending { it.publishedAt }

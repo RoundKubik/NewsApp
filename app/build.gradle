@@ -92,4 +92,7 @@ dependencies {
     implementation navigationFragmentDep
     implementation navigationUiDep
 
+    implementation "androidx.room:room-rxjava2:2.4.2"
+
+
 }

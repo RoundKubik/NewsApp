@@ -2,7 +2,7 @@ package ru.roundkubik.news.presentation.news.adapter.article
 
 import coil.load
 import ru.roundkubik.news.R
-import ru.roundkubik.news.core.root.adapter.BaseViewHolder
+import ru.roundkubik.news.core.root.presentation.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemArticleCardBinding
 import ru.roundkubik.news.presentation.model.ArticleUi
 

@@ -6,5 +6,5 @@ import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.model.Headlines
 
 interface NewsDataSource {
-    fun getHeadlines(category: Category): Single<NewsResult<Headlines>>
+    fun getHeadlinesArticlesSortedByDescending(category: Category): Single<NewsResult<Headlines>>
 }

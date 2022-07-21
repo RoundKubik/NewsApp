@@ -1,6 +1,6 @@
 package ru.roundkubik.news.presentation.news.adapter.headlines
 
-import ru.roundkubik.news.core.root.adapter.BaseViewHolder
+import ru.roundkubik.news.core.root.presentation.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemHeadlinesProgressBinding
 import ru.roundkubik.news.presentation.model.HeadlineUi
 

@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ru.roundkubik.news.core.root.adapter.BaseAdapter
-import ru.roundkubik.news.core.root.adapter.BaseViewHolder
+import ru.roundkubik.news.core.root.presentation.adapter.BaseAdapter
+import ru.roundkubik.news.core.root.presentation.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemHeadlinesBinding
 import ru.roundkubik.news.databinding.ItemHeadlinesErrorBinding
 import ru.roundkubik.news.databinding.ItemHeadlinesProgressBinding

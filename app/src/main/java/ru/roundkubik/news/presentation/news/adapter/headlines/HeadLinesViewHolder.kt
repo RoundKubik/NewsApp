@@ -2,7 +2,7 @@ package ru.roundkubik.news.presentation.news.adapter.headlines
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.roundkubik.news.core.root.adapter.BaseViewHolder
+import ru.roundkubik.news.core.root.presentation.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemHeadlinesBinding
 import ru.roundkubik.news.presentation.model.BaseHeadlineUi
 import ru.roundkubik.news.presentation.model.HeadlineUi

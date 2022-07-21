@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import ru.roundkubik.news.core.entity.NewsResult
 import ru.roundkubik.news.core.schedulers.SchedulerProvider
 import ru.roundkubik.news.domain.model.Category
-import ru.roundkubik.news.domain.usecase.GetHeadlinesUseCase
-import ru.roundkubik.news.domain.usecase.GetSortedCategoriesUseCase
+import ru.roundkubik.news.domain.usecase.*
 import ru.roundkubik.news.presentation.model.FailHeadlineUi
 import ru.roundkubik.news.presentation.model.HeadlineUi
 import ru.roundkubik.news.presentation.model.ProgressHeadlineUi
@@ -23,6 +22,9 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(
     getSortedCategoriesUseCase: GetSortedCategoriesUseCase,
     private val getHeadlinesUseCase: GetHeadlinesUseCase,
+    private val cacheHeadlinesUseCase: CacheHeadlinesUseCase,
+    private val deleteHeadlinesFromDbUseCase: DeleteHeadlinesFromDbUseCase,
+    private val getCachedHeadlinesUseCase: GetCachedHeadlinesUseCase,
     private val schedulerProvider: SchedulerProvider,
 ) : ViewModel() {
 

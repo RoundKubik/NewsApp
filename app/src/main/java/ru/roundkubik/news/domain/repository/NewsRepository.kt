@@ -6,5 +6,11 @@ import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.model.Headlines
 
 interface NewsRepository {
-    fun getHeadlines(category: Category): Single<NewsResult<Headlines>>
+    fun getHeadlinesArticlesSortedByDescending(category: Category): Single<NewsResult<Headlines>>
+
+    fun getCachedHeadlines(category: Category): Single<NewsResult<Headlines>>
+
+    fun addArticlesInDb(headlines: Headlines)
+
+    fun deleteArticlesFromDb(headlines: Headlines)
 }

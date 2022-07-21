@@ -3,8 +3,8 @@ package ru.roundkubik.news.presentation.news.adapter.article
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import ru.roundkubik.news.core.root.adapter.BaseAdapter
-import ru.roundkubik.news.core.root.adapter.BaseViewHolder
+import ru.roundkubik.news.core.root.presentation.adapter.BaseAdapter
+import ru.roundkubik.news.core.root.presentation.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemArticleCardBinding
 import ru.roundkubik.news.presentation.model.ArticleUi
 

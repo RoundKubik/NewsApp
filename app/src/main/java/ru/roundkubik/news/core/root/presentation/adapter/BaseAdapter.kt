@@ -1,4 +1,4 @@
-package ru.roundkubik.news.core.root.adapter
+package ru.roundkubik.news.core.root.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

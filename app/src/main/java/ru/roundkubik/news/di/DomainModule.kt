@@ -19,19 +19,6 @@ abstract class DomainModule {
 
 
     companion object {
-        @Provides
-        fun providesNewsRepository(
-            newsDataSource: NewsDataSource,
-        ): NewsRepository = NewsRepositoryImpl(
-            newsDataSource
-        )
-
-        @Provides
-        fun providesCategoryRepository(
-            categoryDataSource: CategoryDataSource,
-        ): CategoryRepository = CategoryRepositoryImpl(
-            categoryDataSource
-        )
 
         @Provides
         fun provideGetHeadlinesUseCase(newsRepository: NewsRepository) =

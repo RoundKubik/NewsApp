@@ -7,10 +7,10 @@ import ru.roundkubik.news.domain.model.Headlines
 import ru.roundkubik.news.domain.repository.NewsRepository
 import javax.inject.Inject
 
-class GetHeadlinesUseCase @Inject constructor(
+class GetCachedHeadlinesUseCase @Inject constructor(
     private val repository: NewsRepository
 ) {
     operator fun invoke(category: Category): Single<NewsResult<Headlines>> {
-        return repository.getHeadlinesArticlesSortedByDescending(category)
+        return repository.getCachedHeadlines(category)
     }
 }
