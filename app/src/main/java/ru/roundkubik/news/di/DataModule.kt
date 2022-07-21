@@ -34,7 +34,7 @@ abstract class DataModule {
     companion object {
 
         @Provides
-        fun provideMaxPageSize(): Int = 25
+        fun provideMaxPageSize(): Int = 20
 
         @Provides
         fun providesNewsRepository(

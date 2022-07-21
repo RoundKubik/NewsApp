@@ -12,8 +12,7 @@ interface ArticleCacheDataSource {
 
     fun fetchArticles(category: Category, maxPageSize: Int): Single<NewsResult<Headlines>>
 
-    fun addArticles(headlines: Headlines)
+    fun addArticles(headlines: Headlines):  Single<NewsResult<List<Long>>>
 
-    fun deleteArticles(headlines: Headlines)
 
 }

@@ -1,7 +1,6 @@
 package ru.roundkubik.news.data.cache.model
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import ru.roundkubik.news.data.cache.converter.DateConverter

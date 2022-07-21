@@ -7,6 +7,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.roundkubik.news.NewsApplication
+import ru.roundkubik.news.core.network_manager.NetworkManager
+import ru.roundkubik.news.core.network_manager.NetworkManagerImpl
 import ru.roundkubik.news.core.resource_provider.BaseResourceProvider
 import ru.roundkubik.news.core.resource_provider.ResourceProvider
 import javax.inject.Singleton
@@ -27,6 +29,11 @@ abstract class AppModule {
         fun provideResourceProvider(@ApplicationContext context: Context): ResourceProvider =
             BaseResourceProvider(context)
 
+
+        @Singleton
+        @Provides
+        fun provideNetworkManager(@ApplicationContext context: Context): NetworkManager =
+            NetworkManagerImpl(context)
     }
 
 

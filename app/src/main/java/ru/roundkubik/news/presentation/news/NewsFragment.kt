@@ -38,15 +38,21 @@ class NewsFragment : Fragment() {
 
         setupAdapter()
         binding.frgNewsSwl.setOnRefreshListener {
-            viewModel.getHeadlines()
+            viewModel.loadHeadLines()
             binding.frgNewsSwl.isRefreshing = false
         }
+        viewModel.startListeningInternetConnection()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         subscribe()
-        viewModel.getHeadlines()
+        viewModel.loadHeadLines()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.stopListeningInternetConnection()
     }
 
     private fun setupAdapter() {
@@ -58,6 +64,7 @@ class NewsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.headlines.collect {
                 headlinesAdapter.submitData(it.values.toList())
+                viewModel.cacheHeadlines()
             }
         }
         lifecycleScope.launch {
@@ -69,6 +76,20 @@ class NewsFragment : Fragment() {
 
     private fun handleUiState(uiState: NewsViewModel.NewsState) {
         when (uiState) {
+            is NewsViewModel.NewsState.NoNetworkConnection -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.error_network_is_not_available),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            is NewsViewModel.NewsState.NetworkAvailable -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.error_network_is_available),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             is NewsViewModel.NewsState.FailureThrowable -> {
                 Toast.makeText(
                     requireContext(),

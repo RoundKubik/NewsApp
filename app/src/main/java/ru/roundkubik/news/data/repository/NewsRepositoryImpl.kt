@@ -25,13 +25,8 @@ class NewsRepositoryImpl @Inject constructor(
         return cacheDataSource.fetchArticles(category, maxPageSize)
     }
 
-    override fun addArticlesInDb(headlines: Headlines) {
-        cacheDataSource.addArticles(headlines)
+    override fun addArticlesInDb(headlines: Headlines):  Single<NewsResult<List<Long>>>  {
+        return cacheDataSource.addArticles(headlines)
     }
-
-    override fun deleteArticlesFromDb(headlines: Headlines) {
-        cacheDataSource.deleteArticles(headlines)
-    }
-
 
 }

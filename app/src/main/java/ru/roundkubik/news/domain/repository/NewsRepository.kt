@@ -10,7 +10,6 @@ interface NewsRepository {
 
     fun getCachedHeadlines(category: Category): Single<NewsResult<Headlines>>
 
-    fun addArticlesInDb(headlines: Headlines)
+    fun addArticlesInDb(headlines: Headlines):  Single<NewsResult<List<Long>>>
 
-    fun deleteArticlesFromDb(headlines: Headlines)
 }

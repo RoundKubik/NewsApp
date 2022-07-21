@@ -23,5 +23,9 @@
     <string name="error_headlines_to_many" translatable="false">"You have made too many requests recently for category: %s</string>
     <string name="error_headlines_throwable" translatable="false">Unknown error, please repeat later</string>
 
+    <string name="error_network_is_not_available" translatable="false">Network connection is not available</string>
+    <string name="error_network_is_available" translatable="false">Network connection available</string>
+
+
     <string name="db_name" translatable="false">articles.db</string>
 </resources>

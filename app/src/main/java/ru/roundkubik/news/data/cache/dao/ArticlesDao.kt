@@ -7,10 +7,10 @@ import ru.roundkubik.news.data.cache.model.ArticleDb
 @Dao
 interface ArticlesDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addArticles(articles: List<ArticleDb>)
+    @Insert
+    fun addArticles(articles: List<ArticleDb>): Single<List<Long>>
 
-    @Query("SELECT * FROM ARTICLES_TABLE AT WHERE AT.categoryIdentity = :categoryIdentity AND AT.categoryName = :categoryName ORDER BY publishedAt DESC LIMIT :count")
+    @Query("SELECT * FROM ARTICLES_TABLE AT WHERE AT.categoryIdentity = :categoryIdentity AND AT.categoryName = :categoryName LIMIT :count")
     fun fetchArticles(
         categoryIdentity: String,
         categoryName: String,
