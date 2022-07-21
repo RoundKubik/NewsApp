@@ -10,12 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/frg_news_rv_news_categories"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/frg_news_swl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/frg_news__include_search_toolbar"
-        tools:itemCount="10"
-        tools:listitem="@layout/item_headlines" />
+        android:layout_below="@id/frg_news__include_search_toolbar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/frg_news_rv__news_categories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_headlines" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

@@ -9,7 +9,10 @@ import ru.roundkubik.news.core.root.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemHeadlinesBinding
 import ru.roundkubik.news.databinding.ItemHeadlinesErrorBinding
 import ru.roundkubik.news.databinding.ItemHeadlinesProgressBinding
+import ru.roundkubik.news.presentation.model.BaseHeadlineUi
+import ru.roundkubik.news.presentation.model.FailHeadlineUi
 import ru.roundkubik.news.presentation.model.HeadlineUi
+import ru.roundkubik.news.presentation.model.ProgressHeadlineUi
 
 class HeadlinesAdapter(
     private val onArticleClick: (urlToArticle: String) -> Unit
@@ -18,9 +21,9 @@ class HeadlinesAdapter(
     private val viewPool = RecyclerView.RecycledViewPool()
 
     override fun getItemViewType(position: Int) = when (list[position]) {
-        is HeadlineUi.BaseHeadlineUi -> 0
-        is HeadlineUi.Progress -> 1
-        is HeadlineUi.Fail -> 2
+        is BaseHeadlineUi -> 0
+        is ProgressHeadlineUi -> 1
+        is FailHeadlineUi -> 2
         else -> -1
     }
 

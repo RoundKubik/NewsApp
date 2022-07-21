@@ -51,7 +51,17 @@ class NewsDataSourceImpl @Inject constructor(
                 response.code() == HttpURLConnection.HTTP_NOT_FOUND -> {
                     NewsResult.Error(
                         HeadlinesError(
-                            resourceProvider.string(R.string.error_headlines_cannot_find_requested)
+                            resourceProvider.string(
+                                R.string.error_headlines_cannot_find_requested,
+                                category.name
+                            )
+                        )
+                    )
+                }
+                response.code() == 429 -> {
+                    NewsResult.Error(
+                        HeadlinesError(
+                            resourceProvider.string(R.string.error_headlines_to_many, category.name)
                         )
                     )
                 }

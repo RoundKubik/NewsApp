@@ -2,6 +2,7 @@ package ru.roundkubik.news.presentation.news.adapter.headlines
 
 import ru.roundkubik.news.core.root.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemHeadlinesErrorBinding
+import ru.roundkubik.news.presentation.model.FailHeadlineUi
 import ru.roundkubik.news.presentation.model.HeadlineUi
 
 class ErrorHeadlinesViewHolder(
@@ -10,7 +11,7 @@ class ErrorHeadlinesViewHolder(
 
     override fun bind(elem: HeadlineUi) {
         binding.itemHeadlinesErrorTvCategory.text = elem.category.name.uppercase()
-        if (elem is HeadlineUi.Fail) {
+        if (elem is FailHeadlineUi) {
             binding.itemHeadlinesErrorTvErrorMessage.text = elem.message
         }
     }

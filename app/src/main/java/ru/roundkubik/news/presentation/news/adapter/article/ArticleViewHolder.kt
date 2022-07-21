@@ -1,6 +1,7 @@
 package ru.roundkubik.news.presentation.news.adapter.article
 
 import coil.load
+import ru.roundkubik.news.R
 import ru.roundkubik.news.core.root.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemArticleCardBinding
 import ru.roundkubik.news.presentation.model.ArticleUi
@@ -20,7 +21,7 @@ class ArticleViewHolder(
 
     override fun bind(elem: ArticleUi) {
         item = elem
-        binding.itemArticleCardIvContent.load(item.urlToImage)
+        binding.itemArticleCardIvContent.load(item.urlToImage ?: R.drawable.ic_whilte_place_holder)
         binding.itemArticleCardTvContent.text = item.title
     }
 }

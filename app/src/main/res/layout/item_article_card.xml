@@ -13,7 +13,7 @@
         android:layout_margin="@dimen/dp_16"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        tools:srcCompat="@drawable/img_news_header" />
+        android:src="@drawable/ic_whilte_place_holder" />
 
     <View
         android:layout_width="match_parent"
@@ -29,6 +29,7 @@
         android:layout_marginBottom="@dimen/dp_16"
         android:ellipsize="end"
         android:maxLines="4"
+        android:padding="@dimen/dp_8"
         android:textColor="@color/white"
         android:textSize="18sp"
         tools:text="Burrowing goby piranha codlet píntano tapetail gurnard naked-back knifefish, fusilier fish, swampfish yellowtail barracuda whitefish glassfish bonito coley wormfish rockweed gunnel riffle dace. Fierasfer whitefish amur pike zebra shark California halibut oarfish eeltail catfish! Sabertooth fish, whale shark gunnel bighead carp cownose ray trumpetfish Celebes rainbowfish regal whiptail catfish roughy, Black scabbardfish coelacanth tope oldwife longnose whiptail catfish. " />

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.roundkubik.news.core.root.adapter.BaseViewHolder
 import ru.roundkubik.news.databinding.ItemHeadlinesBinding
+import ru.roundkubik.news.presentation.model.BaseHeadlineUi
 import ru.roundkubik.news.presentation.model.HeadlineUi
 import ru.roundkubik.news.presentation.news.adapter.article.ArticleAdapter
 
@@ -24,7 +25,7 @@ class HeadLinesViewHolder(
 
     override fun bind(elem: HeadlineUi) {
         binding.itemNewsCategoryTvCategory.text = elem.category.name.uppercase()
-        if (elem is HeadlineUi.BaseHeadlineUi) {
+        if (elem is BaseHeadlineUi) {
             articleAdapter.submitData(elem.articles)
         }
     }

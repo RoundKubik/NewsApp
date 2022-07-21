@@ -37,6 +37,7 @@ ext {
     hiltKaptDependency = "com.google.dagger:hilt-android-compiler:$hiltKaptVersion"
 
     roomDep = "androidx.room:room-runtime:$roomVersion"
+    roomKtxDep = "androidx.room:room-ktx:$roomVersion"
     roomCompilerKapt = "androidx.room:room-compiler:$roomVersion"
 
     retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"

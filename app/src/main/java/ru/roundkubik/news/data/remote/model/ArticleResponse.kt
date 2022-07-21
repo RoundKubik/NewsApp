@@ -5,8 +5,6 @@ import ru.roundkubik.news.domain.model.Article
 import java.util.*
 
 data class ArticleResponse(
-    @SerializedName("source")
-    val source: SourceResponse,
     @SerializedName("author")
     val author: String?,
     @SerializedName("title")

@@ -1,15 +1,19 @@
 package ru.roundkubik.news.presentation.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.roundkubik.news.R
 import ru.roundkubik.news.databinding.FragmentNewsBinding
 import ru.roundkubik.news.presentation.news.adapter.headlines.HeadlinesAdapter
 
@@ -33,12 +37,16 @@ class NewsFragment : Fragment() {
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
 
         setupAdapter()
-        viewModel.getHeadlines()
+        binding.frgNewsSwl.setOnRefreshListener {
+            viewModel.getHeadlines()
+            binding.frgNewsSwl.isRefreshing = false
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         subscribe()
+        viewModel.getHeadlines()
     }
 
     private fun setupAdapter() {
@@ -53,17 +61,20 @@ class NewsFragment : Fragment() {
             }
         }
         lifecycleScope.launch {
-            viewModel.newsState.collect(this@NewsFragment::handleUiState)
+            viewModel.newsState.collect {
+                handleUiState(it)
+            }
         }
     }
 
     private fun handleUiState(uiState: NewsViewModel.NewsState) {
-        when(uiState) {
-            is NewsViewModel.NewsState.Initial -> {
-
-            }
-            is NewsViewModel.NewsState.Failure -> {
-
+        when (uiState) {
+            is NewsViewModel.NewsState.FailureThrowable -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.error_headlines_unknown),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
