@@ -1,4 +1,3 @@
 package ru.roundkubik.news.core.entity
 
-interface ErrorEntity {
-}
+abstract class ErrorEntity(val message: String)

@@ -8,5 +8,6 @@ class BaseResourceProvider(
 
     override fun string(id: Int): String = context.getString(id)
 
-    override fun stringArray(id: Int): Array<String> = context.resources.getStringArray(id)
+    override fun string(id: Int, vararg args: Any): String = context.getString(id, *args)
+
 }

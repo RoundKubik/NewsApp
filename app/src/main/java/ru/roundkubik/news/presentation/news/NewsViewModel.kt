@@ -1,6 +1,5 @@
 package ru.roundkubik.news.presentation.news
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -8,8 +7,9 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.roundkubik.news.core.entity.ErrorEntity
-import ru.roundkubik.news.core.entity.HeadlinesError
+import ru.roundkubik.news.data.remote.model.HeadlinesError
 import ru.roundkubik.news.core.entity.NewsResult
+import ru.roundkubik.news.core.resource_provider.ResourceProvider
 import ru.roundkubik.news.core.schedulers.SchedulerProvider
 import ru.roundkubik.news.domain.model.Category
 import ru.roundkubik.news.domain.usecase.GetHeadlinesUseCase
@@ -22,14 +22,15 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(
     private val getHeadlinesUseCase: GetHeadlinesUseCase,
     private val getSortedCategoriesUseCase: GetSortedCategoriesUseCase,
-    private val schedulerProvider: SchedulerProvider
+    private val schedulerProvider: SchedulerProvider,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _headlines: MutableStateFlow<Map<Category, HeadlineUi>> = MutableStateFlow(mapOf())
     val headlines: StateFlow<Map<Category, HeadlineUi>> get() = _headlines
 
     private val _categories: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
-    val categories: StateFlow<List<Category>> get() = _categories
+    private val categories: StateFlow<List<Category>> get() = _categories
 
     private val _newsState: MutableStateFlow<NewsState> = MutableStateFlow(NewsState.Initial)
     val newsState get() = _newsState
@@ -44,34 +45,35 @@ class NewsViewModel @Inject constructor(
 
     fun getHeadlines() {
         categories.value.map { category ->
-            Log.d(TAG, "getHeadlines: catgegory: $category")
             getHeadlinesUseCase.invoke(category)
-                    .subscribeOn(schedulerProvider.io())
-                    .observeOn(schedulerProvider.ui())
-                    .subscribe({
-                        when (it) {
-                            is NewsResult.Success -> {
-                                val mutableData = _headlines.value.toMutableMap()
-                                mutableData[it.data.category] = it.data.toHeadlineUi()
-                                _headlines.value = mutableData
-                                Log.d(TAG, "getHeadlines: ${it.data.toHeadlineUi()}")
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({
+                    when (it) {
+                        is NewsResult.Success -> {
+                            val data = it.data.toHeadlineUi()
+                            val mutableData = _headlines.value.toMutableMap().apply {
+                                this[data.category] = data
                             }
-                            is NewsResult.Error -> {
-                                Log.d(TAG, "getHeadlines: error ${it.error.toString()}")
-                                HeadlineUi.Fail(it.error.toString(), category)
-                            }
+                            _headlines.value = mutableData
                         }
-                    }, {
-                        Log.d(TAG, "getHeadlines: throwable $it")
-                        _newsState.value = NewsState.Failure(HeadlinesError.Unknown)
-                    })
-                    .addTo(disposable)
+                        is NewsResult.Error -> {
+                            val mutableData = _headlines.value.toMutableMap().apply {
+                                this[category] = HeadlineUi.Fail(it.error.message, category)
+                            }
+                            _headlines.value = mutableData
+                        }
+                    }
+                }, {
+                    _newsState.value = NewsState.Failure("some message ")
+                })
+                .addTo(disposable)
         }
     }
 
     sealed class NewsState {
         object Initial : NewsState()
-        data class Failure(val newError: ErrorEntity) : NewsState()
+        data class Failure(val message: String) : NewsState()
     }
 
     companion object {

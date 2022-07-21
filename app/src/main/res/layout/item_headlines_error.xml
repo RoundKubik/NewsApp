@@ -6,10 +6,22 @@
     android:layout_margin="@dimen/dp_8">
 
     <TextView
-        android:id="@+id/item_article_error__tv_error_message"
+        android:id="@+id/item_headlines_error__tv_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_8"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="Business"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/item_headlines_error__tv_error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_margin="@dimen/dp_8"
         tools:text="Error when loading some category of nes" />
 
 </RelativeLayout>

@@ -1,7 +1,6 @@
 package ru.roundkubik.news.presentation.news
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.roundkubik.news.databinding.FragmentNewsBinding
-import ru.roundkubik.news.presentation.news.adapter.HeadlinesAdapter
+import ru.roundkubik.news.presentation.news.adapter.headlines.HeadlinesAdapter
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
@@ -52,6 +50,20 @@ class NewsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.headlines.collect {
                 headlinesAdapter.submitData(it.values.toList())
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.newsState.collect(this@NewsFragment::handleUiState)
+        }
+    }
+
+    private fun handleUiState(uiState: NewsViewModel.NewsState) {
+        when(uiState) {
+            is NewsViewModel.NewsState.Initial -> {
+
+            }
+            is NewsViewModel.NewsState.Failure -> {
+
             }
         }
     }

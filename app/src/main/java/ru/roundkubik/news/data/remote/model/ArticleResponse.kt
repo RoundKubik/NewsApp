@@ -25,7 +25,6 @@ data class ArticleResponse(
 
 fun ArticleResponse.toArticle() : Article {
     return Article(
-        id = UUID.randomUUID(),
         title = title,
         url = url,
         urlToImage = urlToImage,

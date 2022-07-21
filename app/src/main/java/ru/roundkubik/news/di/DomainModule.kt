@@ -22,14 +22,14 @@ abstract class DomainModule {
         @Provides
         fun providesNewsRepository(
             newsDataSource: NewsDataSource,
-        ): NewsRepository =  NewsRepositoryImpl(
+        ): NewsRepository = NewsRepositoryImpl(
             newsDataSource
         )
 
         @Provides
         fun providesCategoryRepository(
             categoryDataSource: CategoryDataSource,
-        ): CategoryRepository =  CategoryRepositoryImpl(
+        ): CategoryRepository = CategoryRepositoryImpl(
             categoryDataSource
         )
 

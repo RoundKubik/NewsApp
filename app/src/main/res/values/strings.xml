@@ -10,11 +10,15 @@
     <string name="category_science">science</string>
     <string name="category_technology">technology</string>
 
-    <string name="category_identity_business" translatable="false">business</string>
+    <string name="category_identity_business" translatable="false">bu123siness</string>
     <string name="category_identity_entertainment" translatable="false">entertainment</string>
     <string name="category_identity_general" translatable="false">general</string>
     <string name="category_identity_health" translatable="false">health</string>
     <string name="category_identity_science" translatable="false">science</string>
     <string name="category_identity_technology" translatable="false">technology</string>
+
+    <string name="error_headlines_empty_headlines" translatable="false">Headlines articles response is empty for category: %s</string>
+    <string name="error_headlines_cannot_find_requested" translatable="false">asdf</string>
+    <string name="error_headlines_unknown" translatable="false">Unknown error, please repeat later</string>
 
 </resources>
