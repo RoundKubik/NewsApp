@@ -1,7 +1,8 @@
 package ru.roundkubik.news.presentation.news
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.roundkubik.news.R
 import ru.roundkubik.news.databinding.FragmentNewsBinding
 import ru.roundkubik.news.presentation.news.adapter.headlines.HeadlinesAdapter
+
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
@@ -26,7 +27,7 @@ class NewsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var headlinesAdapter: HeadlinesAdapter = HeadlinesAdapter {
-
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
     }
 
     override fun onCreateView(
@@ -76,7 +77,7 @@ class NewsFragment : Fragment() {
 
     private fun handleUiState(uiState: NewsViewModel.NewsState) {
         when (uiState) {
-            is NewsViewModel.NewsState.NoNetworkConnection -> {
+            is NewsViewModel.NewsState.NetworkNotAvailable -> {
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.error_network_is_not_available),

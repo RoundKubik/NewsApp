@@ -20,7 +20,7 @@ class NewsDataSourceImpl @Inject constructor(
 
     override fun getHeadlinesArticlesSortedByDescending(category: Category): Single<NewsResult<Headlines>> {
         return api.getTopHeadlines(
-            "us",
+            resourceProvider.string(R.string.supported_news_country),
             category.identity,
             resourceProvider.string(R.string.news_api_key)
         ).map { response ->

@@ -1,12 +1,14 @@
 package ru.roundkubik.news.presentation.news
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.roundkubik.news.core.entity.NewsResult
 import ru.roundkubik.news.core.network_manager.NetworkManager
 import ru.roundkubik.news.core.schedulers.SchedulerProvider
@@ -25,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     getSortedCategoriesUseCase: GetSortedCategoriesUseCase,
-    val networkManager: NetworkManager,
+    private val networkManager: NetworkManager,
     private val getHeadlinesUseCase: GetHeadlinesUseCase,
     private val getCachedHeadlinesUseCase: GetCachedHeadlinesUseCase,
     private val cacheHeadlinesUseCase: CacheHeadlinesUseCase,
@@ -42,15 +44,22 @@ class NewsViewModel @Inject constructor(
     )
     val headlines: StateFlow<Map<Category, HeadlineUi>> get() = _headlines
 
-    /* private val _cachedHeadlines: MutableStateFlow<MutableList<Headlines>> = MutableStateFlow(
-         mutableListOf()
-     )
-     val cachedHeadlines: StateFlow<List<Headlines>> get() = _cachedHeadlines
- */
     private val _newsState: MutableStateFlow<NewsState> = MutableStateFlow(NewsState.Initial)
     val newsState get() = _newsState
 
     private val disposable = CompositeDisposable()
+
+    init {
+        viewModelScope.launch {
+            networkManager.availabilityFlow.collectLatest {
+                if (it) {
+                    _newsState.value = NewsState.NetworkAvailable
+                } else {
+                    _newsState.value = NewsState.NetworkNotAvailable
+                }
+            }
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()
@@ -98,7 +107,6 @@ class NewsViewModel @Inject constructor(
                         }
                     }
                 }, {
-                    Log.d(TAG, "getHeadlines: ${it.printStackTrace()}")
                     _newsState.value = NewsState.FailureThrowable
                 })
                 .addTo(disposable)
@@ -130,7 +138,6 @@ class NewsViewModel @Inject constructor(
                         }
                     }
                 }, {
-                    Log.d(TAG, "getHeadlines: ${it.printStackTrace()}")
                     _newsState.value = NewsState.FailureThrowable
                 })
                 .addTo(disposable)
@@ -139,27 +146,28 @@ class NewsViewModel @Inject constructor(
 
     fun cacheHeadlines() {
         headlines.value.keys.forEach { category ->
-            val it = headlines.value[category]
-            Log.d(TAG, "cacheHeadlines: ${it}")
-            if (it is BaseHeadlineUi) {
-                cacheHeadlinesUseCase.invoke(
-                    Headlines(
-                        it.category,
-                        it.articles.map { article ->
-                            Article(
-                                article.title,
-                                article.url,
-                                article.urlToImage,
-                                article.publishedAt
-                            )
-                        }
+            run {
+                val it = headlines.value[category]
+                if (it is BaseHeadlineUi) {
+                    cacheHeadlinesUseCase.invoke(
+                        Headlines(
+                            it.category,
+                            it.articles.map { article ->
+                                Article(
+                                    article.title,
+                                    article.url,
+                                    article.urlToImage,
+                                    article.publishedAt
+                                )
+                            }
+                        )
                     )
-                )
-                    .subscribeOn(schedulerProvider.io())
-                    .observeOn(schedulerProvider.ui())
-                    .subscribe({ }, {
-                        _newsState.value = NewsState.FailureThrowable
-                    }).addTo(disposable)
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ }, {
+                            _newsState.value = NewsState.FailureThrowable
+                        }).addTo(disposable)
+                }
             }
         }
     }
@@ -172,7 +180,7 @@ class NewsViewModel @Inject constructor(
 
     sealed class NewsState {
         object Initial : NewsState()
-        object NoNetworkConnection : NewsState()
+        object NetworkNotAvailable : NewsState()
         object NetworkAvailable : NewsState()
         object FailureThrowable : NewsState()
     }

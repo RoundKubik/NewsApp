@@ -56,6 +56,7 @@ dependencies {
 
     implementation roomDep
     implementation roomKtxDep
+    implementation roomRxDep
     kapt roomCompilerKapt
 
     implementation retrofitDep
@@ -79,20 +80,21 @@ dependencies {
     implementation lifecycleRuntimeDep
     kapt lifecycleKapt
 
-    implementation "io.coil-kt:coil:2.1.0"
+    implementation coilDep
 
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation lifecycleExtDep
 
-    // Fragment / viewmodel
-    def lifecycle = "2.3.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle}"
-    implementation "androidx.fragment:fragment-ktx:1.3.6"
+    implementation lifecycleViewModelDep
+    implementation lifecycleLiveDataDep
+    implementation lifecycleFragmentDep
 
     implementation navigationFragmentDep
     implementation navigationUiDep
 
-    implementation "androidx.room:room-rxjava2:2.4.2"
-
+    implementation coilDep
+    implementation lifecycleExtDep
+    implementation lifecycleViewModelDep
+    implementation lifecycleLiveDataDep
+    implementation lifecycleFragmentDep
 
 }

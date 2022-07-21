@@ -32,7 +32,9 @@ class ArticleDataSource @Inject constructor(
     ).build()
 
     override fun articlesDao(): ArticlesDao {
-        return room.articlesDao()
+        synchronized(lock) {
+            return room.articlesDao()
+        }
     }
 
     override fun fetchArticles(
@@ -65,7 +67,6 @@ class ArticleDataSource @Inject constructor(
     }
 
     override fun addArticles(headlines: Headlines): Single<NewsResult<List<Long>>> {
-        Log.d("ArticleDataSource", "addArticles: ${headlines.articles}")
         return articlesDao().addArticles(
             headlines.articles.map {
                 ArticleDb(

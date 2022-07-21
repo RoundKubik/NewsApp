@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">NewsApp</string>
     <string name="news_api_key" translatable="false">ec3f692a2cc14d2eb58983b5ec0f6f84</string>
+    <string name="supported_news_country" translatable="false">us</string>
     <string name="news">News</string>
 
     <string name="category_business">business</string>

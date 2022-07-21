@@ -33,11 +33,17 @@ ext {
 
     navControllerVersion = '2.3.5'
 
+    coilVersion = '2.1.0'
+    lifecylceExtVersion = '2.2.0'
+
+    lifecycleVersion = '2.3.1'
+
     hiltDependency = "com.google.dagger:hilt-android:$hiltVersion"
     hiltKaptDependency = "com.google.dagger:hilt-android-compiler:$hiltKaptVersion"
 
     roomDep = "androidx.room:room-runtime:$roomVersion"
     roomKtxDep = "androidx.room:room-ktx:$roomVersion"
+    roomRxDep = "androidx.room:room-rxjava2:$roomVersion"
     roomCompilerKapt = "androidx.room:room-compiler:$roomVersion"
 
     retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -63,6 +69,14 @@ ext {
 
     navigationFragmentDep = "androidx.navigation:navigation-fragment-ktx:$navControllerVersion"
     navigationUiDep = "androidx.navigation:navigation-ui-ktx:$navControllerVersion"
+
+    coilDep = "io.coil-kt:coil:$coilVersion"
+
+    lifecycleExtDep = "androidx.lifecycle:lifecycle-extensions:$lifecylceExtVersion"
+
+    lifecycleViewModelDep = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    lifecycleLiveDataDep = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    lifecycleFragmentDep = "androidx.fragment:fragment-ktx:1.3.6"
 }
 
 task clean(type: Delete) {
